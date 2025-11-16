@@ -1,12 +1,8 @@
-// 1_6_1 Show an icon for incomplete items with ? :
-/*
-  Используйте условный оператор (cond ? a : b) для отображения ❌, если isPacked не является true.
-*/
-
 function Item({ name, isPacked }: { name: string; isPacked: boolean }) {
   return (
       <li className="item">
-          {name} {isPacked && '✔'}
+          {/* Используем тернарный оператор для условного отображения значка */}
+          {name} {isPacked ? '✔' : '❌'}
       </li>
   );
 }
