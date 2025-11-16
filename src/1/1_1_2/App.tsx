@@ -1,11 +1,7 @@
-// 1_1_2 Fix the return statement 
-/* 
-  Исправьте ошибку в операторе return
-*/
-
 export default function Profile() {
-    return
-      <img src="KatsukoSaruhashi.jpg" alt="Katsuko Saruhashi" />;
+    // JSX-элемент должен быть на той же строке, что и return,
+    // либо заключен в круглые скобки.
+    return <img src="KatsukoSaruhashi.jpg" alt="Katsuko Saruhashi" />;
   }
   
   
