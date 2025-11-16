@@ -1,8 +1,3 @@
-// 1_4_1 Fix the mistake
-/* 
-  Исправьте ошибку в коде.
-*/
-
 const person = {
     name: 'Gregorio Y. Zara',
     theme: {
@@ -14,7 +9,8 @@ const person = {
   export default function TodoList() {
     return (
       <div style={person.theme}>
-        <h1>{person}'s Todos</h1>
+        {/* В JSX для доступа к свойствам объекта используется точечная нотация. */}
+        <h1>{person.name}'s Todos</h1>
         <img
           className="avatar"
           src="GregorioYZara.jpg"
