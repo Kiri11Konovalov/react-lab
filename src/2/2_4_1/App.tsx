@@ -1,18 +1,15 @@
-// 2_4_1 Implement a traffic light 
-/*
-  Здесь представлен компонент светофора для пешеходного перехода, который включается при нажатии на кнопку.
-
-  Добавьте alert в обработчик нажатия. Когда свет зеленый и говорит "Идти", щелчок по кнопке должен говорить "Следующая остановка". Когда свет красный и говорит "Стоп", нажатие на кнопку должно говорить "Следующим будет идти".
-
-  Есть ли разница в том, поместить ли alert до или после вызова setWalk?
-*/
-
 import { useState } from 'react';
 
 export default function TrafficLight() {
     const [walk, setWalk] = useState(true);
 
     function handleClick() {
+        // Проверяем текущее состояние и выводим соответствующий alert
+        if (walk) {
+            alert('Next is Stop');
+        } else {
+            alert('Next is Walk');
+        }
         setWalk(!walk)
     }
 
