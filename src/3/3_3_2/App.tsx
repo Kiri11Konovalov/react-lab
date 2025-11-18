@@ -1,42 +1,31 @@
-// 3_3_2 Filtering a list  
-/*
-  В этом примере SearchBar имеет собственное состояние query, которое управляет вводом текста. Его родительский компонент FilterableList отображает список элементов, но он не учитывает поисковый запрос.
-
-  Используйте функцию filterItems(foods, query) для фильтрации списка в соответствии с поисковым запросом. Чтобы проверить ваши изменения, проверьте, что ввод "s" в поле ввода отфильтровывает список до "Sushi", "Shish kebab" и "Dim sum".
-
-  Обратите внимание, что filterItems уже реализован и импортирован, поэтому вам не нужно писать его самостоятельно!
-*/
-
 import { useState } from 'react';
 import { foods, filterItems, Item } from './data';
 
 export default function FilterableList() {
-  return (
-    <>
-      <SearchBar />
-      <hr />
-      <List items={foods} />
-    </>
-  );
-}
-
-function SearchBar() {
   const [query, setQuery] = useState('');
 
   function handleChange(e: any) {
     setQuery(e.target.value);
   }
 
+  // Фильтруем список еды на основе запроса
+  const filteredItems = filterItems(foods, query);
+
   return (
-    <label>
-      Search:{' '}
-      <input
-        value={query}
-        onChange={handleChange}
-      />
-    </label>
+    <>
+      <label>
+        Search:{' '}
+        <input
+          value={query}
+          onChange={handleChange}
+        />
+      </label>
+      <hr />
+      <List items={filteredItems} />
+    </>
   );
 }
+
 
 function List({ items }: { items: Item[] }) {
   return (
