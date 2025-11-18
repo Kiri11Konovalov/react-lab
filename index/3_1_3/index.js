@@ -1,53 +1,66 @@
+// Используем состояние, как в React
+let state = {
+    isEditing: false,
+    firstName: 'Jane',
+    lastName: 'Jacobs'
+};
+
+function updateDOM() {
+    // Обновляем DOM в соответствии с состоянием
+    if (state.isEditing) {
+        editButton.textContent = 'Save Profile';
+        firstNameText.style.display = 'none';
+        lastNameText.style.display = 'none';
+        firstNameInput.style.display = '';
+        lastNameInput.style.display = '';
+    } else {
+        editButton.textContent = 'Edit Profile';
+        firstNameInput.style.display = 'none';
+        lastNameInput.style.display = 'none';
+        firstNameText.style.display = '';
+        lastNameText.style.display = '';
+    }
+
+    // Обновляем значения текстовых элементов
+    firstNameText.textContent = state.firstName;
+    lastNameText.textContent = state.lastName;
+    helloText.textContent = `Hello ${state.firstName} ${state.lastName}!`;
+
+    // Обновляем значения input'ов
+    firstNameInput.value = state.firstName;
+    lastNameInput.value = state.lastName;
+}
+
 function handleFormSubmit(e) {
     e.preventDefault();
-    if (editButton.textContent === 'Edit Profile') {
-      editButton.textContent = 'Save Profile';
-      hide(firstNameText);
-      hide(lastNameText);
-      show(firstNameInput);
-      show(lastNameInput);
-    } else {
-      editButton.textContent = 'Edit Profile';
-      hide(firstNameInput);
-      hide(lastNameInput);
-      show(firstNameText);
-      show(lastNameText);
-    }
-  }
-  
-  function handleFirstNameChange() {
-    firstNameText.textContent = firstNameInput.value;
-    helloText.textContent = (
-      'Hello ' +
-      firstNameInput.value + ' ' +
-      lastNameInput.value + '!'
-    );
-  }
-  
-  function handleLastNameChange() {
-    lastNameText.textContent = lastNameInput.value;
-    helloText.textContent = (
-      'Hello ' +
-      firstNameInput.value + ' ' +
-      lastNameInput.value + '!'
-    );
-  }
-  
-  function hide(el) {
-    el.style.display = 'none';
-  }
-  
-  function show(el) {
-    el.style.display = '';
-  }
-  
-  let form = document.getElementById('form');
-  let editButton = document.getElementById('editButton');
-  let firstNameInput = document.getElementById('firstNameInput');
-  let firstNameText = document.getElementById('firstNameText');
-  let lastNameInput = document.getElementById('lastNameInput');
-  let lastNameText = document.getElementById('lastNameText');
-  let helloText = document.getElementById('helloText');
-  form.onsubmit = handleFormSubmit;
-  firstNameInput.oninput = handleFirstNameChange;
-  lastNameInput.oninput = handleLastNameChange;
+    // Переключаем состояние редактирования
+    state.isEditing = !state.isEditing;
+    updateDOM();
+}
+
+function handleFirstNameChange() {
+    // Обновляем состояние при изменении ввода
+    state.firstName = firstNameInput.value;
+    updateDOM();
+}
+
+function handleLastNameChange() {
+    // Обновляем состояние при изменении ввода
+    state.lastName = lastNameInput.value;
+    updateDOM();
+}
+
+
+let form = document.getElementById('form');
+let editButton = document.getElementById('editButton');
+let firstNameInput = document.getElementById('firstNameInput');
+let firstNameText = document.getElementById('firstNameText');
+let lastNameInput = document.getElementById('lastNameInput');
+let lastNameText = document.getElementById('lastNameText');
+let helloText = document.getElementById('helloText');
+form.onsubmit = handleFormSubmit;
+firstNameInput.oninput = handleFirstNameChange;
+lastNameInput.oninput = handleLastNameChange;
+
+// Инициализируем DOM
+updateDOM();
