@@ -18,7 +18,8 @@ export default function ContactList(
                     <li key={contact.id}>
                         <button
                             onClick={() => {
-                                // TODO: dispatch changed_selection
+                                // Диспетчеризация действия для изменения выбранного контакта
+                                dispatch({type: 'changed_selection', contactId: contact.id});
                             }}>
                             {selectedId === contact.id ? <b>{contact.name}</b> : contact.name}
                         </button>
