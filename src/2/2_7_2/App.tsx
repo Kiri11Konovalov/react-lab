@@ -1,8 +1,3 @@
-// 2_7_2 Remove an item from the shopping cart 
-/*
-    В этой корзине есть рабочая кнопка "+", но кнопка "-" ничего не делает. Вам нужно добавить обработчик события, чтобы нажатие на нее уменьшало count соответствующего товара. Если вы нажмете "-", когда счетчик будет равен 1, товар должен автоматически удалиться из корзины. Убедитесь, что он никогда не показывает 0.
-*/
-
 import { useState } from 'react';
 
 const initialProducts = [
@@ -43,6 +38,22 @@ export default function ShoppingCart() {
         );
     }
 
+    function handleDecreaseClick(productId: number) {
+        // Обновляем продукт с указанным id, уменьшая его количество на 1
+        // Если количество становится 0, удаляем продукт из корзины
+        setProducts(products.map(product => {
+            if (product.id === productId) {
+                if (product.count > 1) {
+                    return { ...product, count: product.count - 1 };
+                } else {
+                    // Удаляем продукт, если его количество становится 0
+                    return null;
+                }
+            }
+            return product;
+        }).filter(Boolean) as any); // Фильтруем null значения
+    }
+
     return (
         <ul>
             {products.map((product) => (
@@ -55,7 +66,13 @@ export default function ShoppingCart() {
                     >
                         +
                     </button>
-                    <button>–</button>
+                    <button
+                        onClick={() => {
+                            handleDecreaseClick(product.id);
+                        }}
+                    >
+                        –
+                    </button>
                 </li>
             ))}
         </ul>
