@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Contact } from './App';
 
 export default function EditContact(
@@ -9,6 +9,12 @@ export default function EditContact(
 ) {
   const [name, setName] = useState(initialData.name);
   const [email, setEmail] = useState(initialData.email);
+
+  // Обновляем состояние при изменении initialData
+  useEffect(() => {
+    setName(initialData.name);
+    setEmail(initialData.email);
+  }, [initialData]);
   return (
     <section>
       <label>
