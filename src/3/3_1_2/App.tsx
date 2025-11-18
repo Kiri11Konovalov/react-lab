@@ -1,29 +1,60 @@
-// 3_1_2 Profile editor 
-/*
-    В проекте приведена форма, реализованная на чистом JavaScript.
-
-    Эта форма переключается между двумя режимами: в режиме редактирования вы видите вводимые данные, а в режиме просмотра - только результат. Метка кнопки меняется между "Редактировать" и "Сохранить" в зависимости от того, в каком режиме вы находитесь. Когда вы изменяете вводимые данные, приветственное сообщение внизу обновляется в режиме реального времени.
-
-    Ваша задача - реализовать это на React. Для вашего удобства разметка уже была преобразована в JSX, но вам нужно будет сделать так, чтобы она показывала и скрывала входы, как это делает оригинал.
-
-    Убедитесь, что она также обновляет текст внизу!
-*/
 
 
+import { useState } from 'react';
 export default function EditProfile() {
+    const [isEditing, setIsEditing] = useState(false);
+    const [firstName, setFirstName] = useState('Jane');
+    const [lastName, setLastName] = useState('Jacobs');
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        // Переключаем состояние редактирования
+        setIsEditing(!isEditing);
+    };
+
+    const handleFirstNameChange = (e: any) => {
+        // Обновляем состояние firstName при изменении ввода
+        setFirstName(e.target.value);
+    };
+
+    const handleLastNameChange = (e: any) => {
+        // Обновляем состояние lastName при изменении ввода
+        setLastName(e.target.value);
+    };
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <label>
-                First name: <b>Jane</b>
-                <input />
+                First name:{' '}
+                {/* Отображаем input в режиме редактирования и b в режиме просмотра */}
+                {isEditing ? (
+                    <input
+                        value={firstName}
+                        onChange={handleFirstNameChange}
+                    />
+                ) : (
+                    <b>{firstName}</b>
+                )}
             </label>
             <label>
-                Last name: <b>Jacobs</b>
-                <input />
+                Last name:{' '}
+                {/* Отображаем input в режиме редактирования и b в режиме просмотра */}
+                {isEditing ? (
+                    <input
+                        value={lastName}
+                        onChange={handleLastNameChange}
+                    />
+                ) : (
+                    <b>{lastName}</b>
+                )}
             </label>
-            <button type="submit">Edit Profile</button>
+            <button type="submit">
+                {/* Меняем текст кнопки в зависимости от режима */}
+                {isEditing ? 'Save Profile' : 'Edit Profile'}
+            </button>
             <p>
-                <i>Hello, Jane Jacobs!</i>
+                {/* Обновляем приветственное сообщение в реальном времени */}
+                <i>Hello, {firstName} {lastName}!</i>
             </p>
         </form>
     );
