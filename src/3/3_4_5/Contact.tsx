@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ContactType } from './App';
 
+// Используем id контакта для управления состоянием expanded
 export default function Contact({ contact }: { contact: ContactType }) {
   const [expanded, setExpanded] = useState(false);
   return (
