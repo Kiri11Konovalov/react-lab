@@ -1,11 +1,3 @@
-// 2_5_1 Fix a request counter 
-/*
-    Вы работаете над приложением для рынка предметов искусства, которое позволяет пользователю одновременно отправлять несколько заказов на предметы искусства. Каждый раз, когда пользователь нажимает кнопку "Купить", счетчик "Отложенные" должен увеличиваться на единицу. Через три секунды счетчик "Отложенные" должен уменьшиться, а счетчик "Выполненные" - увеличиться.
-
-    Однако счетчик "Отложенные" ведет себя не так, как задумано. Когда вы нажимаете кнопку "Купить", он уменьшается до -1 (что не должно быть возможно!). А если дважды нажать кнопку "Быстро", то оба счетчика ведут себя непредсказуемо.
-
-    Почему так происходит? Исправьте оба счетчика.
-*/
 import { useState } from 'react';
 
 export default function RequestTracker() {
@@ -13,10 +5,11 @@ export default function RequestTracker() {
     const [completed, setCompleted] = useState(0);
 
     async function handleClick() {
-        setPending(pending + 1);        
+        setPending(prevPending => prevPending + 1);
         await delay(3000);
-        setPending(pending - 1);
-        setCompleted(completed + 1);
+        // Используем функциональные обновления для корректной работы с асинхронными изменениями состояния
+        setPending(prevPending => prevPending - 1);
+        setCompleted(prevCompleted => prevCompleted + 1);
     }
 
     return (
