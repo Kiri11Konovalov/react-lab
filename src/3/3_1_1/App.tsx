@@ -1,17 +1,19 @@
-// 3_1_1 Add and remove a CSS class
-/*
-    Сделайте так, чтобы щелчок на картинке удалял CSS-класс background--active из внешнего <div>, но добавлял класс picture--active к <img>. Повторный щелчок по фону восстановит исходные CSS-классы.
-
-    Визуально вы должны увидеть, что щелчок на изображении удаляет фиолетовый фон и выделяет границу изображения. Щелчок за пределами изображения выделяет фон, но убирает выделение границы изображения.
-*/
+import { useState } from 'react';
 
 export default function Picture() {
+    const [isActive, setIsActive] = useState(false);
+
+    const divClassName = `background ${isActive ? '' : 'background--active'}`;
+    const imgClassName = `picture ${isActive ? 'picture--active' : ''}`;
+
     return (
-        <div className="background background--active">
+        <div className={divClassName}>
+            {/* При клике на изображение изменяется состояние isActive, что приводит к изменению CSS-классов */}
             <img
-                className="picture"
+                className={imgClassName}
                 alt="Rainbow houses in Kampung Pelangi, Indonesia"
                 src="/5qwVYb1.jpg"
+                onClick={() => setIsActive(!isActive)}
             />
         </div>
     );
