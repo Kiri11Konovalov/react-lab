@@ -1,19 +1,16 @@
-// 4_1_1  Fix a broken chat input
-/*
-  Если ввести сообщение и нажать "Отправить" то перед появлением сообщения "Отправлено!" произойдет трехсекундная задержка. Кнопка "Отменить" должна остановить появление сообщения "Отправлено!". Она делает это, вызывая clearTimeout для идентификатора таймаута, сохраненного во время handleSend. Однако даже после нажатия кнопки "Отменить" сообщение "Отправлено!" все равно появляется. Найдите причину неработоспособности и устраните ее.
-*/
-
-import { useState } from 'react';
-import { getImageUrl } from "./utils"
+// Использован useRef для хранения идентификатора таймаута, чтобы он сохранялся между рендерами
+import { useState, useRef } from 'react';
 
 export default function Chat() {
   const [text, setText] = useState('');
   const [isSending, setIsSending] = useState(false);
-  let timeoutID = null;
+  // Используем useRef для хранения идентификатора таймаута между рендерами
+  const timeoutID = useRef<number | null>(null);
 
   function handleSend() {
     setIsSending(true);
-    timeoutID = setTimeout(() => {
+    // Сохраняем идентификатор таймаута в ref
+    timeoutID.current = setTimeout(() => {
       alert('Отправлено!');
       setIsSending(false);
     }, 3000);
@@ -21,7 +18,10 @@ export default function Chat() {
 
   function handleUndo() {
     setIsSending(false);
-    clearTimeout(timeoutID);
+    // Проверяем и отменяем таймаут, если он существует
+    if (timeoutID.current) {
+      clearTimeout(timeoutID.current);
+    }
   }
 
   return (
