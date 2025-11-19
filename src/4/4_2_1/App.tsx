@@ -1,26 +1,36 @@
-// 4_2_1 Play and pause the video
-/*
-  В этом примере кнопка переключает переменную состояния для перехода между воспроизведением и паузой. Однако для того, чтобы действительно воспроизвести или поставить видео на паузу, переключения состояния недостаточно. Вам также необходимо вызвать play() и pause() на элементе DOM для <video>. Добавьте к нему ссылку и заставьте кнопку работать.
-
-  Для решения дополнительной задачи синхронизируйте кнопку "Play" с тем, воспроизводится ли видео, даже если пользователь щелкает правой кнопкой мыши на видео и воспроизводит его с помощью встроенных элементов управления мультимедиа браузера. Для этого вам может понадобиться прослушать onPlay и onPause на видео.
-*/
+// Добавлен ref к элементу video для управления воспроизведением
+// Добавлены обработчики onPlay и onPause для синхронизации состояния с событиями видео
 
 import { useState, useRef } from 'react';
 
 export default function VideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
+  // Создаем ref для доступа к элементу video
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   function handleClick() {
     const nextIsPlaying = !isPlaying;
+    // Управляем воспроизведением видео через ref
+    if (nextIsPlaying) {
+      videoRef.current?.play();
+    } else {
+      videoRef.current?.pause();
+    }
     setIsPlaying(nextIsPlaying);
   }
-
   return (
     <>
       <button onClick={handleClick}>
         {isPlaying ? 'Pause' : 'Play'}
       </button>
-      <video width="250">
+      <video
+        width="250"
+        ref={videoRef}
+        // Синхронизируем состояние с событием onPlay
+        onPlay={() => setIsPlaying(true)}
+        // Синхронизируем состояние с событием onPause
+        onPause={() => setIsPlaying(false)}
+      >
         <source
           src="flower.mp4"
           type="video/mp4"
