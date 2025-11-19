@@ -1,3 +1,4 @@
+// Фокусировка поля ввода при монтировании компонента
 import { useEffect, useRef } from 'react';
 
 export default function MyInput(
@@ -9,10 +10,13 @@ export default function MyInput(
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     }) {
 
-    const ref = useRef(null);
+    // Создаем ref для доступа к элементу input
+    const ref = useRef<HTMLInputElement>(null);
 
-    // TODO: This doesn't quite work. Fix it.
-    // ref.current.focus()    
+    // Фокусируем поле ввода при монтировании компонента
+    useEffect(() => {
+        ref.current?.focus();
+    }, []);
 
     return (
         <input
