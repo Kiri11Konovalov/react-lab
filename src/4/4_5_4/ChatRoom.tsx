@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+// Добавлен createConnection в зависимости useEffect для переподключения при изменении метода создания соединения
+
+import { useEffect } from 'react';
 import { Connection } from './chat';
 
 export default function ChatRoom({ roomId, createConnection }: {
@@ -8,8 +10,8 @@ export default function ChatRoom({ roomId, createConnection }: {
         const connection = createConnection(roomId);
         connection.connect();
         return () => connection.disconnect();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [roomId]);
+    // Переподключаемся при изменении roomId или createConnection
+    }, [roomId, createConnection]);
 
     return <h1>Welcome to the {roomId} room!</h1>;
 }
