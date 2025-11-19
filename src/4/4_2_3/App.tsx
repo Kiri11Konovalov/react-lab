@@ -1,17 +1,20 @@
-// 4_2_3 Scrolling an image carouse
-/*
-  Эта карусель изображений имеет кнопку "Next", которая переключает активное изображение. Заставьте галерею прокручиваться горизонтально до активного изображения по щелчку. Для этого нужно вызвать scrollIntoView() на DOM-узле активного изображения:
-  
-  node.scrollIntoView({
-    behavior: 'smooth',
-    block: 'nearest',
-    inline: 'center',
-  });
-*/
-import { useState } from 'react';
+// Добавлены ref'ы для изображений и useEffect для прокрутки к активному изображению
+import { useState, useRef, useEffect } from 'react';
 
 export default function CatFriends() {
   const [index, setIndex] = useState(0);
+  // Создаем массив ref'ов для изображений
+  const imgRefs = useRef<HTMLImageElement[]>([]);
+
+  useEffect(() => {
+    // Прокручиваем к активному изображению
+    imgRefs.current[index]?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
+  }, [index]);
+
   return (
     <>
       <nav>
@@ -30,11 +33,16 @@ export default function CatFriends() {
           {catList.map((cat, i) => (
             <li key={cat.id}>
               <img
+                ref={(el) => {
+                  if (el) imgRefs.current[i] = el;
+                }}
                 className={
                   index === i ?
                     'active' :
                     ''
                 }
+                
+                // Привязываем ref к каждому изображению
                 src={cat.imageUrl}
                 alt={'Cat #' + cat.id}
               />
