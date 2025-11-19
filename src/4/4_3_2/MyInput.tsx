@@ -1,3 +1,4 @@
+// Фокусировка поля ввода при монтировании компонента, если shouldFocus равно true
 import { useEffect, useRef } from 'react';
 
 export default function MyInput(
@@ -10,12 +11,16 @@ export default function MyInput(
         value: string,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     }) {
+  // Создаем ref для доступа к элементу input
   const ref = useRef<HTMLInputElement>(null);
 
-  // TODO: call focus() only if shouldFocus is true.
+  // Фокусируем поле ввода только если shouldFocus равно true
   useEffect(() => {
-    ref.current?.focus();
-  }, []);
+    if (shouldFocus) {
+      ref.current?.focus();
+    }
+    
+  }, [shouldFocus]);
 
   return (
     <input
